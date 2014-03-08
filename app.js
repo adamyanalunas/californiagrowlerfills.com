@@ -18,6 +18,7 @@ app.get('/', function(req, res) {
   res.render('index', {pageData: {year: (new Date).getFullYear()}});
 });
 
-var server = app.listen(80, function() {
+var port = Number(process.env.PORT || 3000);
+var server = app.listen(port, function() {
     console.log('Listening on port %d', server.address().port);
 });
