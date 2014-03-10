@@ -3,6 +3,27 @@ document.addEventListener('DOMContentLoaded', function() {
   Tabletop.init( { key: URL, callback: showInfo, simpleSheet: true } );
 });
 
+
+// TODO: Turn into models so hash and convenience functions are available
+var fillabilityHash = function(entry) {
+    var hash = 0;
+
+    hash += (entry.blanks.toUpperCase() === 'Y' ? -1 : 1);
+    hash += (entry.otherbreweries.toUpperCase() === 'Y' ? -1 : 1);
+    hash += (entry.oneliters.toUpperCase() === 'Y' ? -1 : 1);
+
+    return hash;
+};
+
+
+var sortByGrowlerFillability = function(data) {
+  return data.sort(function(a, b) {
+    var fillComparison = fillabilityHash(a) - fillabilityHash(b);
+    return (fillComparison === 0 ? fillComparison : a.brewery.localeCompare(b.brewery));
+  });
+};
+
+
 function showInfo(data) {
   var directives = {
     brewery: {
@@ -13,5 +34,7 @@ function showInfo(data) {
       }
     }
   }
-  $('.breweries').render(data, directives);
+
+  var fillabilitySortedData = sortByGrowlerFillability(data);
+  $('.breweries').render(fillabilitySortedData, directives);
 }
