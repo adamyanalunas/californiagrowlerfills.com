@@ -15,7 +15,7 @@ app.configure(function(){
 
 
 app.get('/', function(req, res) {
-  res.render('index', {pageData: {year: (new Date).getFullYear()}});
+  res.render('index', {pageData: {year: (new Date()).getFullYear()}});
 });
 
 var port = Number(process.env.PORT || 3000);
