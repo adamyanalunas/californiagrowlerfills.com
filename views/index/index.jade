@@ -6,7 +6,6 @@ html(lang='en')
     != css('app')
     script(src='/js/vendor/jquery.min.js')
     script(src='js/lib/tabletop1.3.3.js')
-    //- script(src='js/lib/sheetsee.js')
     script(src='js/lib/transparency.min.js')
 
   body
@@ -14,42 +13,18 @@ html(lang='en')
 
     section(role="main")
       //- input#fullTableFilter(type="text", placeholder="filter by…")
-      table#fullTable
-        thead
-          tr
-            th Brewery
-            th Score
-            th Fills Blanks?
-            th Branded from any brewery?
-            th One Liter Growlers?
-            th Comments
-            th Last Updated
-        tbody.breweries
-          tr
-            td.brewery
-            td.score
-            td.blanks
-            td.otherbreweries
-            td.oneliters
-            td.comments
-            td.lastupdated
-
-      table#breweryListing
-        thead
-          tr
-            th Brewery
-            th Score
-        tbody
 
       div#bucket
+        h3 Loading&hellip;
 
       != js('vendors/lodash')
       != js('vendors/backbone-min')
-      script(src='/js/vendor/react.min.js')
+      script(src='/js/vendor/react-with-addons.js')
+      //- script(src='/js/vendor/react.min.js')
       script(src='/js/vendor/JSXTransformer.js')
       != js('models/Brewery')
       != js('collections/Breweries')
-      != js('views/brewery.view')
+      script(src='/js/views/brewery.view.jsx', type='text/jsx')
       script(src='js/init.js')
 
   footer
