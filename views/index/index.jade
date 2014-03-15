@@ -4,7 +4,7 @@ html(lang='en')
     meta(charse='utf8')
     title California Growler Guide
     != css('app')
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')
+    script(src='/js/vendor/jquery.min.js')
     script(src='js/lib/tabletop1.3.3.js')
     //- script(src='js/lib/sheetsee.js')
     script(src='js/lib/transparency.min.js')
@@ -18,6 +18,7 @@ html(lang='en')
         thead
           tr
             th Brewery
+            th Score
             th Fills Blanks?
             th Branded from any brewery?
             th One Liter Growlers?
@@ -26,12 +27,29 @@ html(lang='en')
         tbody.breweries
           tr
             td.brewery
+            td.score
             td.blanks
             td.otherbreweries
             td.oneliters
             td.comments
             td.lastupdated
 
+      table#breweryListing
+        thead
+          tr
+            th Brewery
+            th Score
+        tbody
+
+      div#bucket
+
+      != js('vendors/lodash')
+      != js('vendors/backbone-min')
+      script(src='/js/vendor/react.min.js')
+      script(src='/js/vendor/JSXTransformer.js')
+      != js('models/Brewery')
+      != js('collections/Breweries')
+      != js('views/brewery.view')
       script(src='js/init.js')
 
   footer

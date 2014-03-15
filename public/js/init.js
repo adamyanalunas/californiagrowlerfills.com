@@ -1,40 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var URL = '0AnNkPDPOGoPFdDBvS2tOOWw1QVQ4OVhJQWxjYkNnTkE';
-  Tabletop.init( { key: URL, callback: showInfo, simpleSheet: true } );
-});
-
-
-// TODO: Turn into models so hash and convenience functions are available
-var fillabilityHash = function(entry) {
-    var hash = 0;
-
-    hash += (entry.blanks.toUpperCase() === 'Y' ? -1 : 1);
-    hash += (entry.otherbreweries.toUpperCase() === 'Y' ? -1 : 1);
-    hash += (entry.oneliters.toUpperCase() === 'Y' ? -1 : 1);
-
-    return hash;
-};
-
-
-var sortByGrowlerFillability = function(data) {
-  return data.sort(function(a, b) {
-    var fillComparison = fillabilityHash(a) - fillabilityHash(b);
-    return (fillComparison === 0 ? fillComparison : a.brewery.localeCompare(b.brewery));
+  // var URL = '0AnNkPDPOGoPFdDBvS2tOOWw1QVQ4OVhJQWxjYkNnTkE';
+  // Tabletop.init( { key: URL, callback: showInfo, simpleSheet: true } );
+  $.ajax({
+    dataType: 'json',
+    url: '/js/breweries_fixture.json',
+  }).success(function(data) {
+    showInfo(data);
   });
-};
+});
 
 
 function showInfo(data) {
   var directives = {
     brewery: {
       html: function() {
-        return (this.url)
-          ? '<a href="' + this.url + '">' + this.brewery + '</a>'
-          : this.brewery;
+        var name = (this.get('breweryurl'))
+          ? '<a href="' + this.get('breweryurl') + '">' + this.get('brewery') + '</a>'
+          : this.get('brewery');
+        var fillInfo = (this.get('fillurl'))
+          ? '<br><small><a href="' + this.get('fillurl') + '">Growler information</a></small>'
+          : '';
+
+        return name + fillInfo;
+      }
+    },
+    score: {
+      html: function() {
+        return 'score: ' + this.fillability();
       }
     }
   }
 
-  var fillabilitySortedData = sortByGrowlerFillability(data);
-  $('.breweries').render(fillabilitySortedData, directives);
+  var breweries = new Breweries(data);
+  var fillabilitySorted = breweries.sortByFillability();
+  // $('.breweries').render(fillabilitySorted, directives);
+
+  var model = breweries.models[0];
+  var breweryRow = new BreweryView({model: model});
+  breweryRow.render();
 }
