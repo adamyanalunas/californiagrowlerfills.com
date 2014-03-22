@@ -12,7 +12,8 @@ html(lang='en')
     h1 California Growler Fill Guide
 
     section(role="main")
-      //- input#fullTableFilter(type="text", placeholder="filter by…")
+      #fullTableFilter
+        input(type="text", class="search", placeholder="filter by…")
 
       div#bucket
         h3 Loading&hellip;
@@ -20,10 +21,12 @@ html(lang='en')
       != js('vendors/lodash')
       != js('vendors/backbone-min')
       script(src='/js/vendor/react-with-addons.js')
+      script(src='/js/vendor/postal.min.js')
       //- script(src='/js/vendor/react.min.js')
       script(src='/js/vendor/JSXTransformer.js')
       != js('models/Brewery')
       != js('collections/Breweries')
+      script(src='/js/views/list.filter.js')
       script(src='/js/views/brewery.view.jsx', type='text/jsx')
       script(src='js/init.js')
 
